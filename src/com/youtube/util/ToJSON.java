@@ -6,13 +6,12 @@ import java.sql.ResultSet;
 
 //import org.owasp.esapi.ESAPI;
 
-public class ToJSON{
+public class ToJSON{  // JSONLint - JSON Validator 
 
 	public JSONArray toJSONArray(ResultSet rs) throws Exception{
 
 		// JSON array that will be returned, holds all records
 		JSONArray json = new JSONArray();
-		String temp = null;
 
 		try{
 
