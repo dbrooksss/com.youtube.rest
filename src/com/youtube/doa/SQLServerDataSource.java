@@ -12,11 +12,11 @@ public class SQLServerDataSource{
 	public SQLServerDataSource(){
 
 		try{
-//			DriverManager.registerDriver(new com.microsoft.sqlserver.jdbc.SQLServerDriver());
+			// DriverManager.registerDriver(new com.microsoft.sqlserver.jdbc.SQLServerDriver());
 			String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
 			Class.forName(driver);
 			conn = DriverManager.getConnection(URL);
-			
+
 		}catch(ClassNotFoundException e){
 			System.out.println(e.getMessage());
 		}catch(SQLException e){
