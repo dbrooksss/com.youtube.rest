@@ -3,6 +3,8 @@ package com.youtube.rest.inventory;
 import java.sql.*;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
 import org.codehaus.jettison.json.JSONArray;
 import com.youtube.doa.SQLServerDataSource;
 import com.youtube.util.ToJSON;
@@ -20,11 +22,12 @@ public class V1_inventory{
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public String returnAllPcParts() throws Exception{
+	public Response returnAllPcParts() throws Exception{
 
 		PreparedStatement query = null;
 		Connection conn = null;
 		String returnString = null;
+		Response rp = null;
 
 		try{
 			SQLServerDataSource ds = new SQLServerDataSource();
@@ -40,6 +43,8 @@ public class V1_inventory{
 			query.close();
 
 			returnString = json.toString();
+			// building a response from our string
+			rp = Response.ok(returnString).build();
 
 		}catch(SQLException e){
 			System.out.println("msg: " + e.getMessage());
@@ -48,6 +53,6 @@ public class V1_inventory{
 				conn.close();
 			}
 		}
-		return returnString;
+		return rp;
 	}
 }

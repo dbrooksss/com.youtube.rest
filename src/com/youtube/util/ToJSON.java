@@ -3,15 +3,16 @@ package com.youtube.util;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONObject;
 import java.sql.ResultSet;
+import org.owasp.esapi.ESAPI; 
 
-//import org.owasp.esapi.ESAPI;
+public class ToJSON{ // JSONLint - JSON Validator
 
-public class ToJSON{  // JSONLint - JSON Validator 
-
+	// ESAPI - helps catch db poisoning
 	public JSONArray toJSONArray(ResultSet rs) throws Exception{
 
 		// JSON array that will be returned, holds all records
 		JSONArray json = new JSONArray();
+		String temp = null;
 
 		try{
 
@@ -64,8 +65,14 @@ public class ToJSON{  // JSONLint - JSON Validator
 						System.out.println("ToJson: NVARCHAR");
 
 					}else if(rsmd.getColumnType(i) == java.sql.Types.VARCHAR){
-						obj.put(column_name, rs.getString(column_name));
-						System.out.println("ToJson: VARCHAR");
+						temp = rs.getString(column_name); // col name to string
+						// un-encodes everything, then re-encodes to html
+						temp = ESAPI.encoder().canonicalize(temp);
+						temp = ESAPI.encoder().encodeForHTMLAttribute(temp);
+						obj.put(column_name, temp); // adds to object
+
+						// obj.put(column_name, rs.getString(column_name));
+						// System.out.println("ToJson: VARCHAR");
 
 					}else if(rsmd.getColumnType(i) == java.sql.Types.TINYINT){
 						obj.put(column_name, rs.getInt(column_name));
@@ -92,7 +99,7 @@ public class ToJSON{  // JSONLint - JSON Validator
 						System.out.println("ToJson: Object " + column_name);
 					}
 				}
-				
+
 				json.put(obj);
 			}
 
