@@ -11,17 +11,13 @@ import com.youtube.doa.DatabaseQueries;
 
 @Path("/v2/inventory")
 public class V2_inventory{
+	
 	/**
 	 * This method will return the specific brand of PC parts the user is
 	 * looking for. It uses a QueryParam bring in the data to the method.
 	 * 
 	 * Example would be:
-	 * http://localhost:7001/com.youtube.rest/api/v2/inventory?brand=ASUS
-	 * 
-	 * @param brand
-	 *            - product brand name
-	 * @return - json array results list from the database
-	 * @throws Exception
+	 * http://localhost:8080/com.youtube.rest/api/v2/inventory?brand=ASUS
 	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -32,9 +28,10 @@ public class V2_inventory{
 
 		try{
 
-			// return a error is brand is missing from the url string
+			// return a error if brand is missing from the url string
 			if(brand == null){
-				return Response.status(400).entity("Error: please specify brand for this search").build();
+				// http code 400 = Bad Request
+				return Response.status(400).entity("Error: please specify brand for this search.").build();
 			}
 
 			DatabaseQueries dao = new DatabaseQueries();
@@ -59,7 +56,7 @@ public class V2_inventory{
 	 * returnErrorOnBrand() throws Exception {
 	 * 
 	 * return Response.status(400).entity(
-	 * "Error: please specify brand for this search").build(); }
+	 * "Error: please specify brand for this search.").build(); }
 	 */
 
 	/**
@@ -68,12 +65,7 @@ public class V2_inventory{
 	 * this method uses the PathParam to bring in the data.
 	 * 
 	 * Example would be:
-	 * http://localhost:7001/com.youtube.rest/api/v2/inventory/ASUS
-	 * 
-	 * @param brand
-	 *            - product brand name
-	 * @return - json array results list from the database
-	 * @throws Exception
+	 * http://localhost:8080/com.youtube.rest/api/v2/inventory/ASUS
 	 */
 	@Path("/{brand}")
 	@GET
@@ -90,6 +82,7 @@ public class V2_inventory{
 
 			json = dao.queryReturnBrandParts(brand);
 			returnString = json.toString();
+			
 		}catch(Exception e){
 			e.printStackTrace();
 			return Response.status(500).entity("Server was not able to process your request").build();
@@ -128,6 +121,7 @@ public class V2_inventory{
 
 			json = dao.queryReturnBrandItemNumber(brand, item_number);
 			returnString = json.toString();
+			
 		}catch(Exception e){
 			e.printStackTrace();
 			return Response.status(500).entity("Server was not able to process your request").build();

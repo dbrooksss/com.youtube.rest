@@ -12,10 +12,6 @@ public class DatabaseQueries extends SQLServerDataSource{
 	 * If you need to do a delete, consider moving the data to a archive table,
 	 * then delete. Or just make the data invisible to the user. Delete data can
 	 * be very dangerous.
-	 * 
-	 * @param pk
-	 * @return
-	 * @throws Exception
 	 */
 	public int deletePC_PARTS(int pk) throws Exception{
 
@@ -45,27 +41,17 @@ public class DatabaseQueries extends SQLServerDataSource{
 		return 200;
 	}
 
-	/**
-	 * This method allows you to update PC_PARTS table
-	 * 
-	 * Note: there is no validation being done... if this was a real project you
-	 * must do validation here!
-	 * 
-	 * @param pk
-	 * @param avail
-	 * @return
-	 * @throws Exception
-	 */
+	// This method allows you to update PC_PARTS table
+	// if this was a real project you must do validation here!
 	public int updatePC_PARTS(int pk, int avail) throws Exception{
 
 		PreparedStatement query = null;
 		Connection conn = null;
 
 		try{
-			/*
-			 * If this was a real application, you should do data validation
-			 * here before updating data.
-			 */
+
+			// If this was a real application, you should do data validation
+			// here before updating data.
 
 			conn = this.getConnection();
 			query = conn.prepareStatement("update PC_PARTS " + "set PC_PARTS_AVAIL = ? " + "where PC_PARTS_PK = ? ");
@@ -110,10 +96,6 @@ public class DatabaseQueries extends SQLServerDataSource{
 			/*
 			 * If this was a real application, you should do data validation
 			 * here before starting to insert data into the database.
-			 * 
-			 * Important: The primary key on PC_PARTS table will auto increment.
-			 * That means the PC_PARTS_PK column does not need to be apart of
-			 * the SQL insert query below.
 			 */
 			conn = this.getConnection();
 			query = conn.prepareStatement("insert into PC_PARTS "
@@ -143,17 +125,7 @@ public class DatabaseQueries extends SQLServerDataSource{
 		return 200;
 	}
 
-	/**
-	 * This method will search for a specific brand from the PC_PARTS table. By
-	 * using prepareStatement and the ?, we are protecting against sql injection
-	 * 
-	 * Never add parameter straight into the prepareStatement
-	 * 
-	 * @param brand
-	 *            - product brand
-	 * @return - json array of the results from the database
-	 * @throws Exception
-	 */
+	// This method will search for a specific brand from the PC_PARTS table.
 	public JSONArray queryReturnBrandParts(String brand) throws Exception{
 
 		PreparedStatement query = null;
@@ -173,8 +145,8 @@ public class DatabaseQueries extends SQLServerDataSource{
 			ResultSet rs = query.executeQuery();
 
 			json = converter.toJSONArray(rs);
-			query.close(); // close connection
-			
+			query.close();
+
 		}catch(SQLException sqlError){
 			sqlError.printStackTrace();
 			return json;
@@ -189,22 +161,7 @@ public class DatabaseQueries extends SQLServerDataSource{
 		return json;
 	}
 
-	/**
-	 * This method will search for the specific brand and the brands item number
-	 * in the PC_PARTS table.
-	 * 
-	 * By using prepareStatement and the ?, we are protecting against sql
-	 * injection
-	 * 
-	 * Never add parameter straight into the prepareStatement
-	 * 
-	 * @param brand
-	 *            - product brand
-	 * @param item_number
-	 *            - product item number
-	 * @return - json array of the results from the database
-	 * @throws Exception
-	 */
+	// This method will search for the specific brand and the brands item number
 	public JSONArray queryReturnBrandItemNumber(String brand, int item_number) throws Exception{
 
 		PreparedStatement query = null;
@@ -228,8 +185,8 @@ public class DatabaseQueries extends SQLServerDataSource{
 			ResultSet rs = query.executeQuery();
 
 			json = converter.toJSONArray(rs);
-			query.close(); // close connection
-			
+			query.close();
+
 		}catch(SQLException sqlError){
 			sqlError.printStackTrace();
 			return json;
@@ -263,7 +220,7 @@ public class DatabaseQueries extends SQLServerDataSource{
 
 			json = converter.toJSONArray(rs);
 			query.close(); // close connection
-			
+
 		}catch(SQLException sqlError){
 			sqlError.printStackTrace();
 			return json;
@@ -294,8 +251,8 @@ public class DatabaseQueries extends SQLServerDataSource{
 			ResultSet rs = query.executeQuery();
 
 			json = converter.toJSONArray(rs);
-			query.close(); // close connection
-			
+			query.close();
+
 		}catch(SQLException sqlError){
 			sqlError.printStackTrace();
 			return json;
@@ -310,3 +267,8 @@ public class DatabaseQueries extends SQLServerDataSource{
 		return json;
 	}
 }
+
+/*
+ * By using prepareStatement and the ?, we are protecting against sql injection.
+ * Never add parameter straight into the prepareStatement
+ */
