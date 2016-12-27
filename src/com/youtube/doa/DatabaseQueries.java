@@ -76,15 +76,6 @@ public class DatabaseQueries extends SQLServerDataSource{
 	 * 
 	 * Note: there is no validation being done... if this was a real project you
 	 * must do validation here!
-	 * 
-	 * @param PC_PARTS_TITLE
-	 * @param PC_PARTS_CODE
-	 * @param PC_PARTS_MAKER
-	 * @param PC_PARTS_AVAIL
-	 *            - integer column
-	 * @param PC_PARTS_DESC
-	 * @return integer 200 for success, 500 for error
-	 * @throws Exception
 	 */
 	public int insertIntoPC_PARTS(String PC_PARTS_TITLE, String PC_PARTS_CODE, String PC_PARTS_MAKER,
 			String PC_PARTS_AVAIL, String PC_PARTS_DESC) throws Exception{
@@ -97,6 +88,7 @@ public class DatabaseQueries extends SQLServerDataSource{
 			 * If this was a real application, you should do data validation
 			 * here before starting to insert data into the database.
 			 */
+			
 			conn = this.getConnection();
 			query = conn.prepareStatement("insert into PC_PARTS "
 					+ "(PC_PARTS_TITLE, PC_PARTS_CODE, PC_PARTS_MAKER, PC_PARTS_AVAIL, PC_PARTS_DESC) "
@@ -106,8 +98,7 @@ public class DatabaseQueries extends SQLServerDataSource{
 			query.setString(2, PC_PARTS_CODE);
 			query.setString(3, PC_PARTS_MAKER);
 
-			// PC_PARTS_AVAIL is a number column, so we need to convert the
-			// String into a integer
+			// PC_PARTS_AVAIL is numeric... convert to int
 			int avilInt = Integer.parseInt(PC_PARTS_AVAIL);
 			query.setInt(4, avilInt);
 

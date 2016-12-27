@@ -11,7 +11,7 @@ import com.youtube.doa.DatabaseQueries;
 
 @Path("/v2/inventory")
 public class V2_inventory{
-	
+
 	/**
 	 * This method will return the specific brand of PC parts the user is
 	 * looking for. It uses a QueryParam bring in the data to the method.
@@ -82,7 +82,7 @@ public class V2_inventory{
 
 			json = dao.queryReturnBrandParts(brand);
 			returnString = json.toString();
-			
+
 		}catch(Exception e){
 			e.printStackTrace();
 			return Response.status(500).entity("Server was not able to process your request").build();
@@ -96,7 +96,7 @@ public class V2_inventory{
 	 * uses PathParam to bring in both parameters.
 	 * 
 	 * Example:
-	 * http://localhost:7001/com.youtube.rest/api/v2/inventory/ASUS/168131318
+	 * http://localhost:8080/com.youtube.rest/api/v2/inventory/ASUS/168131318
 	 * 
 	 * @param brand
 	 *            - product brand name
@@ -111,6 +111,7 @@ public class V2_inventory{
 	public Response returnSpecificBrandItem(@PathParam("brand") String brand, @PathParam("item_number") int item_number)
 			throws Exception{
 
+		String noformat;
 		String returnString = null;
 
 		JSONArray json = new JSONArray();
@@ -120,8 +121,13 @@ public class V2_inventory{
 			DatabaseQueries dao = new DatabaseQueries();
 
 			json = dao.queryReturnBrandItemNumber(brand, item_number);
-			returnString = json.toString();
-			
+			noformat = json.toString();
+
+			ObjectMapper mapper = new ObjectMapper();
+			Object obj = mapper.readValue(noformat, Object.class);
+			returnString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(obj);
+
+
 		}catch(Exception e){
 			e.printStackTrace();
 			return Response.status(500).entity("Server was not able to process your request").build();
