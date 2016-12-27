@@ -72,6 +72,7 @@ public class V2_inventory{
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response returnBrand(@PathParam("brand") String brand) throws Exception{
 
+		String noformat;
 		String returnString = null;
 
 		JSONArray json = new JSONArray();
@@ -81,7 +82,11 @@ public class V2_inventory{
 			DatabaseQueries dao = new DatabaseQueries();
 
 			json = dao.queryReturnBrandParts(brand);
-			returnString = json.toString();
+			noformat = json.toString();
+
+			ObjectMapper mapper = new ObjectMapper();
+			Object obj = mapper.readValue(noformat, Object.class);
+			returnString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(obj);
 
 		}catch(Exception e){
 			e.printStackTrace();
@@ -126,7 +131,6 @@ public class V2_inventory{
 			ObjectMapper mapper = new ObjectMapper();
 			Object obj = mapper.readValue(noformat, Object.class);
 			returnString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(obj);
-
 
 		}catch(Exception e){
 			e.printStackTrace();
@@ -190,6 +194,9 @@ public class V2_inventory{
 		return Response.ok(returnString).build();
 	}
 }
+
+// modularity = each method does one task
+// simplicity = a method can do multiple tasks
 
 /*
  * This is a class used by the addPcParts method. Used by the Jackson Processor
