@@ -99,8 +99,8 @@ public class DatabaseQueries extends SQLServerDataSource{
 			query.setString(3, PC_PARTS_MAKER);
 
 			// PC_PARTS_AVAIL is numeric... convert to int
-			int avilInt = Integer.parseInt(PC_PARTS_AVAIL);
-			query.setInt(4, avilInt);
+			int availInt = Integer.parseInt(PC_PARTS_AVAIL);
+			query.setInt(4, availInt);
 
 			query.setString(5, PC_PARTS_DESC);
 			query.executeUpdate(); // note the new command for insert statement
