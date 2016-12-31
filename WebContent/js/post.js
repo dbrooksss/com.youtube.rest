@@ -20,7 +20,7 @@ $(document).ready(function() {
 		//console.log("submit button has been clicked");
 		e.preventDefault(); //cancel form submit
 		
-		var jsObj = $post_example.serializeObject(), ajaxObj = {}; // - didn't work in firefox
+		var jsObj = $post_example.serializeObject(), ajaxObj = {}; // - didn't work in firefox occasionally
 		
 		//$(function(e){
 		//$post_example.serializeObject(), ajaxObj = {};

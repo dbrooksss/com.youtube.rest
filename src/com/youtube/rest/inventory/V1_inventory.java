@@ -31,9 +31,8 @@ public class V1_inventory{
 		try{
 			SQLServerDataSource ds = new SQLServerDataSource();
 			conn = ds.getConnection();
-			query = conn.prepareStatement("SELECT * FROM PC_PARTS WHERE PC_PARTS_MAKER = ?");
+			query = conn.prepareStatement("SELECT * FROM PC_PARTS");
 			
-			query.setString(1, "MSI");
 			ResultSet rs = query.executeQuery(); // records set
 
 			ToJSON converter = new ToJSON(); // bring in instance

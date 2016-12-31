@@ -34,9 +34,9 @@ public class V2_inventory{
 				return Response.status(400).entity("Error: please specify brand for this search.").build();
 			}
 
-			DatabaseQueries dao = new DatabaseQueries();
+			DatabaseQueries db = new DatabaseQueries();
 
-			json = dao.queryReturnBrandParts(brand);
+			json = db.queryReturnBrandParts(brand);
 			returnString = json.toString();
 
 		}catch(Exception e){
@@ -79,9 +79,9 @@ public class V2_inventory{
 
 		try{
 
-			DatabaseQueries dao = new DatabaseQueries();
+			DatabaseQueries db = new DatabaseQueries();
 
-			json = dao.queryReturnBrandParts(brand);
+			json = db.queryReturnBrandParts(brand);
 			noformat = json.toString();
 
 			ObjectMapper mapper = new ObjectMapper();
@@ -123,9 +123,9 @@ public class V2_inventory{
 
 		try{
 
-			DatabaseQueries dao = new DatabaseQueries();
+			DatabaseQueries db = new DatabaseQueries();
 
-			json = dao.queryReturnBrandItemNumber(brand, item_number);
+			json = db.queryReturnBrandItemNumber(brand, item_number);
 			noformat = json.toString();
 
 			ObjectMapper mapper = new ObjectMapper();
@@ -160,8 +160,7 @@ public class V2_inventory{
 	public Response addPcParts(String incomingData) throws Exception{
 
 		String returnString = null;
-		// JSONArray jsonArray = new JSONArray(); //not needed
-		DatabaseQueries dao = new DatabaseQueries();
+		DatabaseQueries db = new DatabaseQueries();
 
 		try{
 			System.out.println("incomingData: " + incomingData);
@@ -175,7 +174,7 @@ public class V2_inventory{
 			ObjectMapper mapper = new ObjectMapper(); 
 			ItemEntry itemEntry = mapper.readValue(incomingData, ItemEntry.class); 
 
-			int http_code = dao.insertIntoPC_PARTS(itemEntry.PC_PARTS_TITLE, itemEntry.PC_PARTS_CODE,
+			int http_code = db.insertIntoPC_PARTS(itemEntry.PC_PARTS_TITLE, itemEntry.PC_PARTS_CODE,
 					itemEntry.PC_PARTS_MAKER, itemEntry.PC_PARTS_AVAIL, itemEntry.PC_PARTS_DESC);
 
 			if(http_code == 200){
